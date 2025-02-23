@@ -34,6 +34,8 @@ T leerValor(int menor, int mayor){
 }
 
 int main(){
+    int matricula;
+    matricula = leerValor<int>(1, numeric_limits<streamsize>::max());
 
     
 }
