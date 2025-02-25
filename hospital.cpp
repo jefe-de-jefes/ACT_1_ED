@@ -3,7 +3,7 @@
 
 /*Lia Pardo
  * Alejandro Quintanilla
- * Joseph Meraz
+ * Angel Joseph Meraz Hernandez
  * Luis Fernando Segobia Torres 2177528
  * */
 
