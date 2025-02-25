@@ -7,7 +7,7 @@ using namespace std;
 struct Movimiento {
     int numMovimiento;
     string nombre;
-    string cuenta; // Numero de cuenta (minimo 8 dÌgitos)
+    string cuenta; // Numero de cuenta (minimo 8 d√≠gitos)
     string tipo;   // "Deposito" o "Retiro"
     float monto;
     struct Movimiento *next; 
@@ -60,6 +60,7 @@ T leerValor(int menor, int mayor, const string &aviso = ""){
 
 void ingresarMovimiento(Pila &pila_movimientos, float &fondoCaja);
 void mostrarMovimientos(Pila &pila_movimientos);
+void corteCaja(Pila &pila_movimientos);
 int menu();
 float inicio();
 
@@ -110,8 +111,8 @@ int menu(){
 }
 
 int obtenerUltimoNumeroMovimiento(Pila &pila_movimientos) {
-    if (pila_movimientos == nullptr) return 0; // Si la pila est· vacÌa, empezar desde 1
-    return pila_movimientos->numMovimiento; // Devolver el n˙mero del movimiento m·s reciente
+    if (pila_movimientos == nullptr) return 0; // Si la pila est√° vac√≠a, empezar desde 1
+    return pila_movimientos->numMovimiento; // Devolver el n√∫mero del movimiento m√°s reciente
 }
 
 void ingresarMovimiento(Pila &pila_movimientos, float &fondoCaja){
@@ -232,4 +233,12 @@ void mostrarMovimientos(Pila &pila_movimientos){
     cout << "\nPresione enter para continuar...";
     cin.ignore();
     cin.get();
+}
+void corteCaja(Pila &pila_movimientos) {
+	while(pila_movimientos != nullptr) {
+		Movimiento* temp = pila_movimientos;
+		pila_movimientos = pila_movimientos->next;
+		delete temp;
+	}
+	pila_movimientos = nullptr;
 }
