@@ -80,7 +80,7 @@ int main(){
 				mostrarMovimientos(pila_movimientos);
 				break;
 			case 3:
-				
+				corteCaja(pila_movimientos);
 				break;
 			case 4:
 				cout << "\nSaliendo....";
