@@ -14,12 +14,12 @@ struct Paciente{
 	string nombres;
 	string apellidos;
 	string direccion;
-	long telefono;
+	long long telefono;
 	float adeudo;
 	bool status;
 	Paciente *next;
 
-	Paciente(int codigo, string nombres, string apellidos, string direccion, long telefono, float adeudo){
+	Paciente(int codigo, string nombres, string apellidos, string direccion, long long telefono, float adeudo){
 		this->codigo = codigo;
 		this->nombres = nombres;
 		this->apellidos = apellidos;
@@ -38,26 +38,20 @@ T leerValor(T menor, T mayor){
     T valor;
     while (true)
     {
-        try
+        cin >> valor;
+        if (cin.fail())
         {
-            cin >> valor;
-            if (cin.fail())
-            {
-                throw exception();
-            }
-            
-            if (valor < menor || valor > mayor)
-            {
-                cout << "\n**Introduzca un numero dentro de rango**" << endl;
-            }else{
-                return valor;
-            }
-        }
-        catch(const exception& e)
-        {
-            cout << "Numero no valido" << endl;
+            cout << "Numero no valido, intente nuevamente.." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
+        
+        if (valor < menor || valor > mayor)
+        {
+            cout << "\n**Introduzca un numero dentro de rango**" << endl;
+        }else{
+            return valor;
         }
     }
 
@@ -76,9 +70,9 @@ int main(){
 
 	do{
 		op = menu();
-		matricula++;
 		switch(op){
 			case 1:
+                matricula++;
 				registrar(lista_pacientes, matricula);
 				break;
 			case 2:
@@ -111,12 +105,12 @@ int menu(){
 	return op;
 }
 
-void registrar(Lista &lista_pacientes, const int matricula){
-	system("clear");
+void registrar(Lista &lista_pacientes, int matricula){
+	system("cls");
 	cout << "\n***SISTEMA DE REGISTRO DE PACIENTE***" << endl;
 
 	string nombres, apellidos, direccion;
-	long telefono;
+	long long telefono;
 	int aux_status;
 	float adeudo;
 	bool status;
@@ -132,7 +126,7 @@ void registrar(Lista &lista_pacientes, const int matricula){
 	getline(cin, direccion);
 
 	cout << "\nIntroduzca el telefono del paciente: ";
-	telefono = leerValor<long>(1000000000, 9999999999);
+	telefono = leerValor<long long>(1000000000, 9999999999);
 	
 	cout << "\nIntroduzca el adeudo de el paciente: ";
 	adeudo = leerValor<float>(0.1, numeric_limits<streamsize>::max());
@@ -153,14 +147,16 @@ void registrar(Lista &lista_pacientes, const int matricula){
 }
 
 void mostrar(Lista lista_pacientes){
+    system("cls");
 	cout << "\n***LISTA DE PACIENTES***" << endl;
 	Paciente *aux = lista_pacientes;
 	if(lista_pacientes == nullptr){
-		cout << "Lista vacia";
+		cout << "Lista vacia" << endl;
 		system("pause");
 		return;
 	}
 	while(aux != nullptr){
+        cout << "\n-----------------------------------\n";
 		cout << "Matricula: " << aux->codigo << endl
 			<< "Nombres: " << aux->nombres << endl
 			<< "Apellidos: "<<aux->apellidos << endl
@@ -168,6 +164,7 @@ void mostrar(Lista lista_pacientes){
 			<< "Status: " << aux->status << endl;
 		aux = aux->next;
 	}
+    cout << endl;
 	system("pause");
 	return;
 }
