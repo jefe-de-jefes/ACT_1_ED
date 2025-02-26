@@ -24,6 +24,20 @@ struct Movimiento {
 
 typedef Movimiento* Pila;
 
+string leerCadena() {
+    string entrada;
+    
+    do {
+        getline(cin, entrada);  
+        if (entrada.empty()) {
+            cout << "\n**La entrada no puede estar vacía. Intenta de nuevo.**\n" << endl;
+        }
+
+    } while (entrada.empty());
+    
+    return entrada;
+}
+
 template <typename T>
 T leerValor(int menor, int mayor, const string &aviso = ""){
     T valor;

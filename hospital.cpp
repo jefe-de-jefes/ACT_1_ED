@@ -39,7 +39,7 @@ string leerCadena() {
     do {
         getline(cin, entrada);  
         if (entrada.empty()) {
-            cout << "\n**La entrada no puede estar vacía. Intenta de nuevo.\n**" << endl;
+            cout << "\n**La entrada no puede estar vacía. Intenta de nuevo.**\n" << endl;
         }
 
     } while (entrada.empty());
@@ -136,13 +136,13 @@ void registrar(Lista &lista_pacientes, const int matricula){
 
 	cin.ignore();
 	cout << "\nIntroduzca el o los nombres del paciente: ";
-	getline(cin, nombres);
+	nombres = leerCadena();
 	
 	cout << "\nIntroduzca los apellidos del paciente: ";
-	getline(cin, apellidos);
+	apellidos = leerCadena();
 
 	cout << "\nIntroduzca la direccion del paciente: ";
-	getline(cin, direccion);
+	direccion = leerCadena();
 
 	cout << "\nIntroduzca el telefono del paciente: ";
 	telefono = leerValor<long long>(1000000000, 9999999999);
@@ -168,14 +168,20 @@ void registrar(Lista &lista_pacientes, const int matricula){
 void modificar(Lista &lista_pacientes, int matricula){
 	int op, mat;
 	Paciente * paciente;
-
+	system("cls");
 	cout << "\n**MODIFICAR PACIENTE**" << endl;
-	do
-	{
-		cout << "\nIntroduzca la matricula del paciente a modificar: ";
-		mat = leerValor<int>(1, numeric_limits<streamsize>::max());
-		paciente = findMatricula(lista_pacientes, mat);
-	} while (paciente == nullptr);
+
+	if(lista_pacientes == nullptr){
+		cout << "Lista vacia" << endl;
+		system("pause");
+		return;
+	}
+
+	cout << "\nIntroduzca la matricula del paciente a modificar: ";
+	mat = leerValor<int>(1, numeric_limits<streamsize>::max());
+	paciente = findMatricula(lista_pacientes, mat);
+
+	if(paciente == nullptr) return;
 	
 
 	cout << "\n1.- Nombres\n2.- Apellidos\n3.- Direccion\n4.-Telefono\n5.-Adeudo" << endl;
@@ -185,21 +191,22 @@ void modificar(Lista &lista_pacientes, int matricula){
 	string nuevo;
 	long long new_number;
 	float new_adeudo;
+	cin.ignore();
 	switch (op)
 	{
 	case 1:
 		cout << "Introduzca el/los nuevos nombres: ";
-		getline(cin, nuevo);
+		nuevo = leerCadena();
 		paciente->nombres = nuevo;
 		break;
 	case 2:
 		cout << "Introduzca los nuevos apellidos: ";
-		getline(cin, nuevo);
+		nuevo = leerCadena();
 		paciente->apellidos = nuevo;	
 		break;
 	case 3:
 		cout << "Introduzca la nueva direccion: ";
-		getline(cin, nuevo);
+		nuevo = leerCadena();
 		paciente->direccion = nuevo;
 		break;
 	case 4:
@@ -216,7 +223,9 @@ void modificar(Lista &lista_pacientes, int matricula){
 
 	cout << "\n**Paciente modificado**\n";
 	mostrar_paciente(paciente);
+	system("pause");
 
+	return;
 }
 
 void mostrar(const Lista lista_pacientes){
@@ -267,6 +276,7 @@ Lista findMatricula(const Lista lista, int matricula){
 			aux = aux->next;
 	}
 	cout << "\nMatricula no encontrada\n";
+	system("pause");
 	return nullptr;	
 }
 
