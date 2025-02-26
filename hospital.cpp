@@ -78,6 +78,10 @@ void modificar(Lista &lista_pacientes, const int matricula);
 void mostrar(const Lista lista_pacientes);
 Lista findMatricula(const Lista lista, int matricula);
 void mostrar_paciente(const Paciente* paciente);
+void pagar(Lista &lista_pacientes);
+void eliminar_paciente(Lista &lista_pacientes);
+void eliminar_lista(Lista &lista_pacientes);
+
 int menu();
 
 
@@ -100,16 +104,19 @@ int main(){
 				mostrar(lista_pacientes);
 				break;
 			case 4:
+				pagar(lista_pacientes);
 				break;
 			case 5:
+				eliminar_paciente(lista_pacientes);
 				break;
 			case 6:
 				cout << "\nSaliendo....";
+				eliminar_lista(lista_pacientes);
+				cout << "\n**Memoria liberada**\n";
 				break;
 		}
 	}while(op != 6);
 	
-
    return 0;	
 }
 
@@ -280,3 +287,14 @@ Lista findMatricula(const Lista lista, int matricula){
 	return nullptr;	
 }
 
+void pagar(Lista &lista_pacientes){
+
+}
+
+void eliminar_paciente(Lista &lista_pacientes){
+
+}
+
+void eliminar_lista(Lista &lista_pacientess){
+
+}
