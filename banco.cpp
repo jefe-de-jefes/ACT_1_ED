@@ -7,7 +7,7 @@ using namespace std;
 struct Movimiento {
     int numMovimiento;
     string nombre;
-    string cuenta; // Numero de cuenta (minimo 8 dígitos)
+    string cuenta; // Numero de cuenta (minimo 8 digitos)
     string tipo;   // "Deposito" o "Retiro"
     float monto;
     struct Movimiento *next; 
@@ -30,7 +30,7 @@ string leerCadena() {
     do {
         getline(cin, entrada);  
         if (entrada.empty()) {
-            cout << "\n**La entrada no puede estar vacía. Intenta de nuevo.**\n" << endl;
+            cout << "\n**La entrada no puede estar vacia. Intenta de nuevo.**\n" << endl;
         }
 
     } while (entrada.empty());
@@ -68,13 +68,13 @@ T leerValor(int menor, int mayor, const string &aviso = ""){
 
 void ingresarMovimiento(Pila &pila_movimientos, float &fondoCaja);
 void mostrarMovimientos(Pila &pila_movimientos);
-void corteCaja(Pila &pila_movimientos);
+void corteCaja(Pila &pila_movimientos, float &fondoCaja);
 int menu();
 float inicio();
 
 int main(){
     int op;
-    float fondoCaja;
+    float fondoCaja = 0;
     Pila pila_movimientos = nullptr;
     
     fondoCaja = inicio();
@@ -88,7 +88,7 @@ int main(){
 				mostrarMovimientos(pila_movimientos);
 				break;
 			case 3:
-				corteCaja(pila_movimientos);
+				corteCaja(pila_movimientos, fondoCaja);
 				break;
 			case 4:
 				cout << "\nSaliendo....";
@@ -100,11 +100,15 @@ int main(){
 }
 
 float inicio(){
+	system("cls");
 	cout << "\n***CAJA BANCARIA***"<< endl;
 	cout << "\n**INICIANDO EL DIA EN CAJA**" << endl;
 	cout << "\nAntes de comenzar a registrar movimientos, ingrese el fondo de caja inicial (minimo $300000):\n$ ";
 	float fondoCaja = leerValor<float>(300000.0, 9999999.0);
-	cout << "\nGracias. MOSTRANDO MENU..." << endl;
+	cout << "\nGracias. MOSTRANDO MENU." << endl;
+	cout << "\nPresione enter para continuar...";
+	cin.ignore();
+    cin.get();
 	return fondoCaja;
 }
 
@@ -119,8 +123,8 @@ int menu(){
 }
 
 int obtenerUltimoNumeroMovimiento(Pila &pila_movimientos) {
-    if (pila_movimientos == nullptr) return 0; // Si la pila está vacía, empezar desde 1
-    return pila_movimientos->numMovimiento; // Devolver el número del movimiento más reciente
+    if (pila_movimientos == nullptr) return 0; 
+    return pila_movimientos->numMovimiento; 
 }
 
 void ingresarMovimiento(Pila &pila_movimientos, float &fondoCaja){
@@ -133,11 +137,11 @@ void ingresarMovimiento(Pila &pila_movimientos, float &fondoCaja){
 	
 	cin.ignore();
 	cout << "\nIntroduzca el nombre de cuenta: ";
-	getline(cin, nombre);
+	nombre = leerCadena();
 	
 	cout << "\nIntroduzca el numero de cuenta (al menos 8 digitos): ";
 	do{
-		getline(cin, cuenta);
+		cuenta = leerCadena();
 		if(cuenta.length() < 8)
 			cout << "\nEl numero de cuenta debe de contener al menos 8 digitos. Intente de nuevo: ";
 	}while(cuenta.length() < 8);
@@ -175,12 +179,11 @@ void ingresarMovimiento(Pila &pila_movimientos, float &fondoCaja){
 			return;
 			
 		if(fondoCaja - monto < 0) {
-            cout << "\nNo hay suficiente dinero en la caja para realizar el retiro. Proceder a hacer corte de caja? (1.- Realizar corte de caja / 2.- Salir al menu y cancelar operacion): " << endl;
+            cout << "\nNo hay suficiente dinero en la caja para realizar el retiro. Proceder a hacer corte de caja? \n(1.- Realizar corte de caja / 2.- Salir al menu y cancelar operacion): " << endl;
             salida = leerValor<int>(1,2);
             if(salida == 1){
-            	cin.ignore();
-				cin.get();
-				//llamada a funcion corte de caja
+				corteCaja(pila_movimientos, fondoCaja);
+				return;
 			}
             else{
             	return;
@@ -242,11 +245,33 @@ void mostrarMovimientos(Pila &pila_movimientos){
     cin.ignore();
     cin.get();
 }
-void corteCaja(Pila &pila_movimientos) {
-	while(pila_movimientos != nullptr) {
-		Movimiento* temp = pila_movimientos;
-		pila_movimientos = pila_movimientos->next;
-		delete temp;
+void corteCaja(Pila &pila_movimientos, float &fondoCaja) {
+	int op;
+	
+	system("cls");
+    cout << "\n*** CORTE DE CAJA ***\n" << endl;
+    
+    cout << "\nAl realizar el corte de caja se procedera con la eliminacion del historial de los movimientos bancarios y se terminara la sesion del dia";
+    cout << "\nEl monto actual en caja es de: $" << fondoCaja;
+	cout << "\nDesea proceder con el corte de caja? (1.- Si / 2.- No): ";
+    op =  leerValor<int>(1,2);
+    if(op == 1){
+    	while(pila_movimientos != nullptr) {
+			Movimiento* temp = pila_movimientos;
+			pila_movimientos = pila_movimientos->next;
+			delete temp;
+		}
+		pila_movimientos = nullptr;
+		
+		cout << "\nCorte de caja realizado con exito! Iniciando nueva sesion.";
+		cout << "\nPresione enter para continuar...";
+		
+		cin.ignore();
+        cin.get();
+        fondoCaja = inicio();
+        return;
 	}
-	pila_movimientos = nullptr;
+	else
+		return;
+	
 }
