@@ -7,7 +7,7 @@ using namespace std;
 struct Movimiento {
     int numMovimiento;
     string nombre;
-    string cuenta; // Numero de cuenta (minimo 8 dígitos)
+    string cuenta; // Numero de cuenta (minimo 8 digitos)
     string tipo;   // "Deposito" o "Retiro"
     float monto;
     struct Movimiento *next; 
@@ -30,7 +30,7 @@ string leerCadena() {
     do {
         getline(cin, entrada);  
         if (entrada.empty()) {
-            cout << "\n**La entrada no puede estar vacía. Intenta de nuevo.**\n" << endl;
+            cout << "\n**La entrada no puede estar vacia. Intenta de nuevo.**\n" << endl;
         }
 
     } while (entrada.empty());
@@ -137,11 +137,11 @@ void ingresarMovimiento(Pila &pila_movimientos, float &fondoCaja){
 	
 	cin.ignore();
 	cout << "\nIntroduzca el nombre de cuenta: ";
-	getline(cin, nombre);
+	nombre = leerCadena();
 	
 	cout << "\nIntroduzca el numero de cuenta (al menos 8 digitos): ";
 	do{
-		getline(cin, cuenta);
+		cuenta = leerCadena();
 		if(cuenta.length() < 8)
 			cout << "\nEl numero de cuenta debe de contener al menos 8 digitos. Intente de nuevo: ";
 	}while(cuenta.length() < 8);
