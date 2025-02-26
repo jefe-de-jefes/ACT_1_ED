@@ -33,6 +33,19 @@ struct Paciente{
 
 typedef Paciente* Lista;
 
+string leerCadena() {
+    string entrada;
+    
+    do {
+        getline(cin, entrada);  
+        if (entrada.empty()) {
+            cout << "\n**La entrada no puede estar vacía. Intenta de nuevo.\n**" << endl;
+        }
+
+    } while (entrada.empty());
+    
+    return entrada;
+}
 template <typename T>
 T leerValor(T menor, T mayor){
     T valor;
@@ -49,7 +62,8 @@ T leerValor(T menor, T mayor){
         
         if (valor < menor || valor > mayor)
         {
-            cout << "\n**Introduzca un numero dentro de rango**" << endl;
+            cout << "\n**Numero fuera de rango, intente nuevamente**" << endl;
+			continue;
         }else{
             return valor;
         }
@@ -58,8 +72,12 @@ T leerValor(T menor, T mayor){
 }
 
 
+
 void registrar(Lista &lista_pacientes, const int matricula);
-void mostrar(Lista lista_pacientes);
+void modificar(Lista &lista_pacientes, const int matricula);
+void mostrar(const Lista lista_pacientes);
+Lista findMatricula(const Lista lista, int matricula);
+void mostrar_paciente(const Paciente* paciente);
 int menu();
 
 
@@ -76,6 +94,7 @@ int main(){
 				registrar(lista_pacientes, matricula);
 				break;
 			case 2:
+				modificar(lista_pacientes, matricula);
 				break;
 			case 3:
 				mostrar(lista_pacientes);
@@ -105,7 +124,7 @@ int menu(){
 	return op;
 }
 
-void registrar(Lista &lista_pacientes, int matricula){
+void registrar(Lista &lista_pacientes, const int matricula){
 	system("cls");
 	cout << "\n***SISTEMA DE REGISTRO DE PACIENTE***" << endl;
 
@@ -146,7 +165,61 @@ void registrar(Lista &lista_pacientes, int matricula){
 
 }
 
-void mostrar(Lista lista_pacientes){
+void modificar(Lista &lista_pacientes, int matricula){
+	int op, mat;
+	Paciente * paciente;
+
+	cout << "\n**MODIFICAR PACIENTE**" << endl;
+	do
+	{
+		cout << "\nIntroduzca la matricula del paciente a modificar: ";
+		mat = leerValor<int>(1, numeric_limits<streamsize>::max());
+		paciente = findMatricula(lista_pacientes, mat);
+	} while (paciente == nullptr);
+	
+
+	cout << "\n1.- Nombres\n2.- Apellidos\n3.- Direccion\n4.-Telefono\n5.-Adeudo" << endl;
+	cout << "Que dato desea modificar?: ";
+	op = leerValor<int>(1, 6);
+
+	string nuevo;
+	long long new_number;
+	float new_adeudo;
+	switch (op)
+	{
+	case 1:
+		cout << "Introduzca el/los nuevos nombres: ";
+		getline(cin, nuevo);
+		paciente->nombres = nuevo;
+		break;
+	case 2:
+		cout << "Introduzca los nuevos apellidos: ";
+		getline(cin, nuevo);
+		paciente->apellidos = nuevo;	
+		break;
+	case 3:
+		cout << "Introduzca la nueva direccion: ";
+		getline(cin, nuevo);
+		paciente->direccion = nuevo;
+		break;
+	case 4:
+		cout << "Introduzca el nuevo telefono: ";
+		new_number = leerValor<long long>(1000000000, 9999999999);
+		paciente->telefono = new_number;
+		break;
+	case 5:
+		cout << "Introduzca el nuevo adeudo: ";
+		new_adeudo = leerValor<float>(0, 99999999.99999);
+		paciente->adeudo = new_adeudo;
+		break;
+	}
+
+	cout << "\n**Paciente modificado**\n";
+	mostrar_paciente(paciente);
+
+}
+
+void mostrar(const Lista lista_pacientes){
     system("cls");
 	cout << "\n***LISTA DE PACIENTES***" << endl;
 	Paciente *aux = lista_pacientes;
@@ -169,32 +242,31 @@ void mostrar(Lista lista_pacientes){
 	return;
 }
 
+void mostrar_paciente(const Paciente* paciente){
+	cout << "Codigo: " << paciente->codigo << endl
+	<< "Nombres: " << paciente->nombres << endl
+	<< "Apellidos: "<< paciente->apellidos << endl
+	<< "Direccion: " << paciente->direccion << endl
+	<< "Telefono: " << paciente->telefono << endl
+	<< "Adeudo: " << paciente->adeudo << endl;
+	cout <<"-----------------------------------------\n";
+	return;
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Lista findMatricula(const Lista lista, int matricula){
+	Paciente* aux = lista;
+	while (aux != nullptr)
+	{
+		if (aux->codigo == matricula){
+			cout << "\n**Codigo encontrado**\n";
+			mostrar_paciente(aux);
+			return aux;
+		}
+		else
+			aux = aux->next;
+	}
+	cout << "\nMatricula no encontrada\n";
+	return nullptr;	
+}
 
