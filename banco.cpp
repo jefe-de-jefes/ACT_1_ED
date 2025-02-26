@@ -24,36 +24,44 @@ struct Movimiento {
 
 typedef Movimiento* Pila;
 
+string leerCadena() {
+    string entrada;
+    
+    do {
+        getline(cin, entrada);  
+        if (entrada.empty()) {
+            cout << "\n**La entrada no puede estar vacía. Intenta de nuevo.**\n" << endl;
+        }
+
+    } while (entrada.empty());
+    
+    return entrada;
+}
+
 template <typename T>
 T leerValor(int menor, int mayor, const string &aviso = ""){
     T valor;
     while (true)
     {
-        try
+        cin >> valor;
+        if (cin.fail())
         {
-            cin >> valor;
-            if (cin.fail())
-            {
-                throw exception();
-            }
-            
-            if (valor < menor || valor > mayor)
-            {
-                if (!aviso.empty() && valor >= 50000) { // para el aviso al retirar solamente
-                    cout << aviso << endl;
-                    return valor;
-                }
-				cout << "\n**Introduzca un numero dentro de rango**" << endl;
-            }else {
-                return valor;
-        	}
-        }
-        catch(const exception& e)
-        {
-            cout << "Numero no valido" << endl;
+            cout << "Numero no valido, intente nuevamente.." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
         }
+        
+        if (valor < menor || valor > mayor)
+        {
+            if (!aviso.empty() && valor >= 50000) { // para el aviso al retirar solamente
+                cout << aviso << endl;
+                return valor;
+            }
+				cout << "\n**Introduzca un numero dentro de rango**" << endl;
+        }else {
+                return valor;
+    	}
     }
 
 }
