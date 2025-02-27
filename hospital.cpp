@@ -32,7 +32,6 @@ struct Paciente{
 };
 
 typedef Paciente* Lista;
-
 string leerCadena() {
     string entrada;
     
@@ -78,7 +77,7 @@ void modificar(Lista &lista_pacientes, const int matricula);
 void mostrar(const Lista lista_pacientes);
 Lista findMatricula(const Lista lista, int matricula);
 void mostrar_paciente(const Paciente* paciente);
-void pagar(Lista &lista_pacientes);
+void pagar(Lista &lista_pacientes, const int matricula);
 void eliminar_paciente(Lista &lista_pacientes);
 void eliminar_lista(Lista &lista_pacientes);
 
@@ -104,7 +103,7 @@ int main(){
 				mostrar(lista_pacientes);
 				break;
 			case 4:
-				pagar(lista_pacientes);
+				pagar(lista_pacientes, matricula);
 				break;
 			case 5:
 				eliminar_paciente(lista_pacientes);
@@ -122,7 +121,7 @@ int main(){
 
 
 int menu(){
-	system("clear");
+	system("cls");
 	cout << "\n***SERVICIO DE HOSPITAL***"<< endl;
 	cout << "\n**MENU**" << endl;
 	cout << "\n1.-Registro de paciente\n2.-Modificar paciente\n3.-Mostrar pacientes\n4.-Pagar adeudo\n5.-Eliminar paciente\n6.-Salir"<<endl;
@@ -287,14 +286,88 @@ Lista findMatricula(const Lista lista, int matricula){
 	return nullptr;	
 }
 
-void pagar(Lista &lista_pacientes){
+void pagar(Lista &lista_pacientes, int matricula){
+	int mat;
+	Paciente * paciente;
+	system("cls");
+	cout << "\n**PAGAR ADEUDO**" << endl;
 
+	if(lista_pacientes == nullptr){
+		cout << "Lista vacia" << endl;
+		system("pause");
+		return;
+	}
+
+	cout << "\nIntroduzca la matricula del paciente al cual quitar su adeudo: ";
+	mat = leerValor<int>(1, numeric_limits<streamsize>::max());
+	paciente = findMatricula(lista_pacientes, mat);
+
+	if(paciente == nullptr)
+		return;
+	
+	paciente->adeudo = 0;
+	paciente->status = false;
+	cout << "El adeudo del paciente bajo a $0 y fue dado de alta" << endl;
+	mostrar_paciente(paciente);
+	system("pause");
+
+	return;
 }
 
 void eliminar_paciente(Lista &lista_pacientes){
+	int encontrar = 0, mat;
+	Lista p, ant;
+    p = lista_pacientes;
+	system("cls");
+	cout << "\n**ELIMINAR PACIENTE**" << endl;
 
+	if(lista_pacientes == nullptr){
+		cout << "Lista vacia" << endl;
+		system("pause");
+		return;
+	}
+	
+	cout << "\nIntroduzca la matricula del paciente a eliminar: ";
+	mat = leerValor<int>(1, numeric_limits<streamsize>::max());
+	
+	while(p!=nullptr){
+        if(p->codigo==mat)
+        {
+            cout << "\nPaciente encontrdo";
+            encontrar = 1;
+            if (p->status==false){
+            	if(p==lista_pacientes)
+                	lista_pacientes = lista_pacientes->next;
+                else
+                    ant->next = p->next;
+                delete(p);
+                cout << "\n**Paciente eliminado**";
+			}
+			if (encontrar == 0 && p->status==true)
+				cout << "\nEl paciente aun no esta dado de alta.";
+            
+            return;
+            }
+            ant = p;
+            p = p->next;
+        }
+    if(encontrar == 0)
+		cout << "No se encontro el paciente a eliminar" << endl;
+	system("pause");
+
+	return;
 }
 
-void eliminar_lista(Lista &lista_pacientess){
+void eliminar_lista(Lista &lista_pacientes){
+	Lista p;
+    p = lista_pacientes;
+	cout<< endl;
+	
+	while(p!=nullptr){
+		lista_pacientes = lista_pacientes->next;
+        delete(p);
+        p = lista_pacientes;
+        }
 
+	return;
 }
