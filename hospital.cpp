@@ -317,7 +317,7 @@ void pagar(Lista &lista_pacientes, int matricula){
 void eliminar_paciente(Lista &lista_pacientes){
 	int encontrar = 0, mat;
 	Lista p, ant;
-    p = lista_pacientes;
+    	p = lista_pacientes;
 	system("cls");
 	cout << "\n**ELIMINAR PACIENTE**" << endl;
 
@@ -351,7 +351,7 @@ void eliminar_paciente(Lista &lista_pacientes){
             ant = p;
             p = p->next;
         }
-    if(encontrar == 0)
+    	if(encontrar == 0)
 		cout << "No se encontro el paciente a eliminar" << endl;
 	system("pause");
 
