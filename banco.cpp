@@ -2,6 +2,12 @@
 #include <limits>
 #include <iomanip>
 
+/*Lia Fernanda Pardo Mireles 2096765​ 
+ * Alejandro Quintanilla Leal 2010568​
+ * Angel Joseph Meraz Hernandez 2067151
+ * Luis Fernando Segobia Torres 2177528
+ * */
+
 using namespace std;
 
 struct Movimiento {
@@ -66,6 +72,21 @@ T leerValor(int menor, int mayor, const string &aviso = ""){
 
 }
 
+void delPila(Pila &pila){
+    Pila temp;
+	if(pila == nullptr){
+        cout << "\n**No hay movimientos para liberar**\n" << endl;
+        return;
+    }
+    while (pila != nullptr)
+    {
+        temp = pila;
+        pila = pila->next;
+        delete temp;
+    }
+    cout << "\n**Memoria liberada exitosamente**"<< endl;
+}
+
 void ingresarMovimiento(Pila &pila_movimientos, float &fondoCaja);
 void mostrarMovimientos(Pila &pila_movimientos);
 void corteCaja(Pila &pila_movimientos, float &fondoCaja);
@@ -91,7 +112,8 @@ int main(){
 				corteCaja(pila_movimientos, fondoCaja);
 				break;
 			case 4:
-				cout << "\nSaliendo....";
+				cout << "\nSaliendo...." << endl;
+				delPila(pila_movimientos);
 				break;
 		}
 	}while(op != 4);

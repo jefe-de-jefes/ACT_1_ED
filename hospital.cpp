@@ -1,9 +1,9 @@
 #include<iostream>
 #include <limits>
 
-/*Lia Pardo
- * Alejandro Quintanilla
- * Angel Joseph Meraz Hernandez
+/*Lia Fernanda Pardo Mireles 2096765​ 
+ * Alejandro Quintanilla Leal 2010568​
+ * Angel Joseph Meraz Hernandez 2067151
  * Luis Fernando Segobia Torres 2177528
  * */
 
@@ -249,7 +249,7 @@ void mostrar(const Lista lista_pacientes){
 			<< "Nombres: " << aux->nombres << endl
 			<< "Apellidos: "<<aux->apellidos << endl
 			<< "Adeudo: " << aux->adeudo << endl
-			<< "Status: " << aux->status << endl;
+			<< "Status: " << (aux->status == 1 ? "**Activo**" : "**Alta**") << endl;
 		aux = aux->next;
 	}
     cout << endl;
@@ -333,26 +333,27 @@ void eliminar_paciente(Lista &lista_pacientes){
 	while(p!=nullptr){
         if(p->codigo==mat)
         {
-            cout << "\nPaciente encontrdo";
+            cout << "\n**Paciente encontrdo**" << endl;
             encontrar = 1;
-            if (p->status==false){
+            if (p->status==0){
             	if(p==lista_pacientes)
                 	lista_pacientes = lista_pacientes->next;
                 else
                     ant->next = p->next;
                 delete(p);
-                cout << "\n**Paciente eliminado**";
+                cout << "\n**Paciente eliminado**" << endl;
 			}
-			if (encontrar == 0 && p->status==true)
-				cout << "\nEl paciente aun no esta dado de alta.";
-            
+			if (p->status==1){
+				cout << "\n**El paciente aun no esta dado de alta.**" << endl;
+			}
+			system("pause");
             return;
             }
             ant = p;
             p = p->next;
         }
     	if(encontrar == 0)
-		cout << "No se encontro el paciente a eliminar" << endl;
+		cout << "\n**No se encontro el paciente a eliminar**" << endl;
 	system("pause");
 
 	return;
