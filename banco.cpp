@@ -256,16 +256,18 @@ void corteCaja(Pila &pila_movimientos, float &fondoCaja) {
 	cout << "\nDesea proceder con el corte de caja? (1.- Si / 2.- No): ";
     op =  leerValor<int>(1,2);
     if(op == 1){
-    	while(pila_movimientos != nullptr) {
-			Movimiento* temp = pila_movimientos;
-			pila_movimientos = pila_movimientos->next;
-			delete temp;
+    	if(pila_movimientos == nullptr){
+    		cout << "\nNo hay movimientos en el historial. Iniciando nueva sesion.";
+		} else{
+				while(pila_movimientos != nullptr) {
+				Movimiento* temp = pila_movimientos;
+				pila_movimientos = pila_movimientos->next;
+				delete temp;
+			}
+			pila_movimientos = nullptr;
+			cout << "\nCorte de caja realizado con exito! Iniciando nueva sesion.";
 		}
-		pila_movimientos = nullptr;
-		
-		cout << "\nCorte de caja realizado con exito! Iniciando nueva sesion.";
 		cout << "\nPresione enter para continuar...";
-		
 		cin.ignore();
         cin.get();
         fondoCaja = inicio();
